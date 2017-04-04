@@ -38,6 +38,11 @@ class Stacking(object):
 		super(Stacking, self).__init__()
 		if len(estimators) == 0 or stacked_model is None:
 			raise ValueError("Length of estimators must be greater than 0  and stack model connot be None type")
+
+		if use_prob:
+			for i in range(len(estimators)):
+				if not hasattr(estimators[i],'predict_proba'):
+					raise AttributeError(estimators[i]," has no attribute predict_proba. Either set use_prob to False or use a classifier that supports predict_proba")
 		self.k = n_splits
 		self.estimators=  estimators
 		self.golbal_x = None
